@@ -1,3 +1,3 @@
-# UNIT PRESS
-
-Public merch studio used as the Wix iframe (`/index.html`).
+UNIT PRESS merch studio
+Photorealistic shirt customizer for Official Nurse Merch.
+Optimized for mobile and desktop.
