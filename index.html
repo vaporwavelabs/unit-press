@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>UNIT PRESS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#08080a;--panel:#121215;--line:#2a2a32;--fg:#f3f1ec;--mute:#9c9aa3;--teal:#2EC4B6;--pink:#F24E8A;--cream:#E8D5B7}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:Outfit,system-ui,sans-serif}
+body{display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line);background:#0d0d10}
+header b{letter-spacing:.28em;font-size:13px}
+.wrap{flex:1;display:grid;grid-template-columns:minmax(280px,380px) 1fr;min-height:0}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;grid-template-rows:auto 1fr}}
+aside{border-right:1px solid var(--line);overflow:auto;padding:16px;background:var(--panel)}
+.stage{display:flex;align-items:center;justify-content:center;padding:18px;min-height:520px;background:radial-gradient(circle at 50% 30%,#1a1a22,var(--bg))}
+label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:12px 0 6px}
+input[type=text]{width:100%;background:#0c0c10;border:1px solid var(--line);color:var(--fg);padding:10px 12px;border-radius:8px;font:600 15px Outfit,sans-serif}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.chip,.sw{border:1px solid var(--line);background:#0c0c10;color:var(--fg);border-radius:999px;padding:8px 12px;cursor:pointer;font:600 12px Outfit,sans-serif}
+.chip.on,.sw.on{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+.sw{width:28px;height:28px;padding:0;border-radius:50%}
+.btns{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+button.act{background:var(--teal);color:#06211e;border:0;border-radius:8px;padding:10px 14px;font:700 13px Outfit,sans-serif;cursor:pointer}
+button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px 14px;cursor:pointer;font:600 13px Outfit,sans-serif}
+.shirt{width:min(420px,92vw);aspect-ratio:4/5;position:relative}
+.shirt svg.garment{width:100%;height:100%;display:block}
+.print{position:absolute;left:28%;top:22%;width:44%;height:52%;overflow:visible}
+.print svg{width:100%;height:100%;display:block;overflow:visible}
+.gimg{position:absolute;left:18%;top:28%;width:64%;cursor:move;user-select:none}
+.gimg img{width:100%;display:block;pointer-events:none}
+.hint{font-size:12px;color:var(--mute);margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <b>UNIT PRESS</b>
+  <div class="row">
+    <button class="chip on" id="frontBtn" type="button">Front</button>
+    <button class="chip" id="backBtn" type="button">Back</button>
+  </div>
+</header>
+<div class="wrap">
+  <aside>
+    <label>Heading</label>
+    <input id="h" type="text" maxlength="24" value="ICU"/>
+    <label>Subheading</label>
+    <input id="s" type="text" maxlength="40" value="INTENSIVE CARE UNIT"/>
+    <label>Line 3</label>
+    <input id="m" type="text" maxlength="40" value="STAY CALM. INTERVENE."/>
+    <label>Line 4</label>
+    <input id="c" type="text" maxlength="40" value="SAVE LIVES."/>
+    <label>Palette</label>
+    <div class="row" id="pals"></div>
+    <label>Layout</label>
+    <div class="row" id="lays"></div>
+    <label>Shirt color</label>
+    <div class="row" id="cols"></div>
+    <label>Graphic</label>
+    <div class="btns">
+      <button class="ghost" type="button" id="plus">Replace +</button>
+      <button class="ghost" type="button" id="delg">Delete</button>
+      <input id="file" type="file" accept="image/png,image/jpeg,image/svg+xml" hidden/>
+    </div>
+    <p class="hint">Select the graphic, then Delete/Backspace to remove. Drag to move. Use the corner to resize.</p>
+    <div class="btns">
+      <button class="act" type="button" id="exp">Export PNG</button>
+      <button class="ghost" type="button" id="reset">Reset</button>
+    </div>
+  </aside>
+  <div class="stage">
+    <div class="shirt" id="shirt">
+      <svg class="garment" viewBox="0 0 400 500" aria-hidden="true">
+        <path id="body" fill="#0c0c0e" d="M92 78 L140 58 L168 118 L232 118 L260 58 L308 78 L348 150 L318 168 L318 455 L82 455 L82 168 L52 150 Z"/>
+        <path fill="#0a0a0c" d="M140 58 L168 118 L232 118 L260 58 L232 48 L200 88 L168 48 Z" opacity=".55"/>
+      </svg>
+      <div class="print" id="print">
+        <svg viewBox="0 0 500 620" id="printSvg">
+          <defs>
+            <path id="tomb" d="M 28 132 Q 250 6 472 132"/>
+            <path id="ctop" d="M 76 272 A 174 174 0 0 1 424 272"/>
+            <path id="cbot" d="M 76 272 A 174 174 0 0 0 424 272"/>
+            <clipPath id="circ"><circle cx="250" cy="310" r="168"/></clipPath>
+          </defs>
+          <text id="th" text-anchor="middle" style="font-family:Bebas Neue,Anton,sans-serif"></text>
+          <text id="ts" text-anchor="middle"></text>
+          <text id="tm" text-anchor="middle"></text>
+          <text id="tc" text-anchor="middle"></text>
+        </svg>
+        <div class="gimg" id="gbox">
+          <img id="gimg" alt="print graphic" src="icu-sunset.png"/>
+          <div id="handle" style="position:absolute;right:-6px;bottom:-6px;width:14px;height:14px;background:#2EC4B6;border-radius:2px;cursor:nwse-resize"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const P={
+  retro:{p:'#2EC4B6',s:'#F24E8A',c:'#F24E8A',o:'#F24E8A',out:1,f:'Bebas Neue'},
+  monotone:{p:'#E8D5B7',s:'#E8D5B7',c:'#E8D5B7',o:'#E8D5B7',out:0,f:'Oswald'},
+  modern:{p:'#F4F0E8',s:'#2EC4B6',c:'#F4F0E8',o:'#F4F0E8',out:0,f:'Outfit'},
+  classic:{p:'#2EC4B6',s:'#F24E8A',c:'#2EC4B6',o:'#0A0A0A',out:1,f:'Anton'}
+};
+const SH={'black':'#0c0c0e','white':'#f4f0e8','navy':'#1a2744','charcoal':'#3a3a42','forest':'#1c3d32','maroon':'#6a2436','teal':'#165e5a','hot':'#c9366e','bone':'#e6d7c3'};
+const st={pal:'retro',lay:'stacked',shirt:'black',side:'front',gx:18,gy:28,gs:64,showG:true,src:'icu-sunset.png'};
+const $=id=>document.getElementById(id);
+function mkChips(el,items,key,fmt){
+  el.innerHTML='';
+  items.forEach(id=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='chip'+(st[key]===id?' on':'');
+    b.textContent=fmt?fmt(id):id;
+    b.onclick=()=>{st[key]=id;paint();};
+    el.appendChild(b);
+  });
+}
+function stroke(el,col,on){
+  if(on){el.setAttribute('stroke',col);el.setAttribute('stroke-width','3');el.setAttribute('paint-order','stroke');}
+  else {el.removeAttribute('stroke');el.removeAttribute('stroke-width');el.removeAttribute('paint-order');}
+}
+function setText(el,t,fill,size,y,font){
+  while(el.firstChild) el.removeChild(el.firstChild);
+  el.removeAttribute('x');el.removeAttribute('y');
+  el.setAttribute('fill',fill);
+  el.style.fontFamily=font+',sans-serif';
+  el.style.fontSize=size+'px';
+  el.style.letterSpacing='.04em';
+  el.textContent=t;
+  if(y!=null){el.setAttribute('x','250');el.setAttribute('y',String(y));}
+}
+function pathText(el,href,t,fill,size,font){
+  while(el.firstChild) el.removeChild(el.firstChild);
+  el.removeAttribute('x');el.removeAttribute('y');
+  el.setAttribute('fill',fill);
+  el.style.fontFamily=font+',sans-serif';
+  el.style.fontSize=size+'px';
+  const tp=document.createElementNS('http://www.w3.org/2000/svg','textPath');
+  tp.setAttributeNS('http://www.w3.org/1999/xlink','href',href);
+  tp.setAttribute('href',href);
+  tp.setAttribute('startOffset','50%');
+  tp.setAttribute('text-anchor','middle');
+  tp.textContent=t;
+  el.appendChild(tp);
+}
+function paint(){
+  const pal=P[st.pal];
+  const h=$('h').value,s=$('s').value,m=$('m').value,c=$('c').value;
+  mkChips($('pals'),Object.keys(P),'pal',id=>id[0].toUpperCase()+id.slice(1));
+  mkChips($('lays'),['stacked','tombstone','circle'],'lay',id=>id[0].toUpperCase()+id.slice(1));
+  const cols=$('cols');cols.innerHTML='';
+  Object.entries(SH).forEach(([id,hex])=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='sw'+(st.shirt===id?' on':'');b.style.background=hex;b.title=id;
+    b.onclick=()=>{st.shirt=id;paint();};
+    cols.appendChild(b);
+  });
+  $('body').setAttribute('fill',SH[st.shirt]);
+  $('frontBtn').className='chip'+(st.side==='front'?' on':'');
+  $('backBtn').className='chip'+(st.side==='back'?' on':'');
+  const th=$('th'),ts=$('ts'),tm=$('tm'),tc=$('tc');
+  [th,ts,tm,tc].forEach(el=>stroke(el,pal.o,pal.out));
+  if(st.lay==='tombstone'){
+    pathText(th,'#tomb',h,pal.p,64,pal.f);
+    setText(ts,s,pal.s,22,430,pal.f);
+    setText(tm,m,pal.s,18,468,pal.f);
+    setText(tc,c,pal.c,20,510,pal.f);
+  }else if(st.lay==='circle'){
+    pathText(th,'#ctop',h,pal.p,42,pal.f);
+    pathText(ts,'#cbot',s,pal.s,22,pal.f);
+    setText(tm,m,pal.s,16,560,pal.f);
+    setText(tc,c,pal.c,18,590,pal.f);
+  }else{
+    setText(th,h,pal.p,72,70,pal.f);
+    setText(ts,s,pal.s,20,430,pal.f);
+    setText(tm,m,pal.s,16,468,pal.f);
+    setText(tc,c,pal.c,18,508,pal.f);
+  }
+  const box=$('gbox');
+  box.style.display=st.showG?'block':'none';
+  box.style.left=st.gx+'%';box.style.top=st.gy+'%';box.style.width=st.gs+'%';
+  $('gimg').src=st.src;
+  $('gimg').style.clipPath=st.lay==='circle'?'circle(50% at 50% 50%)':'none';
+}
+['h','s','m','c'].forEach(id=>$ (id).addEventListener('input',paint));
+$('frontBtn').onclick=()=>{st.side='front';paint();};
+$('backBtn').onclick=()=>{st.side='back';paint();};
+$('plus').onclick=()=>$('file').click();
+$('file').onchange=e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  const r=new FileReader(); r.onload=()=>{st.src=r.result;st.showG=true;paint();}; r.readAsDataURL(f);
+};
+$('delg').onclick=()=>{st.showG=false;paint();};
+document.addEventListener('keydown',e=>{
+  if((e.key==='Delete'||e.key==='Backspace') && document.activeElement.tagName!=='INPUT'){st.showG=false;paint();}
+});
+$('reset').onclick=()=>{
+  st.pal='retro';st.lay='stacked';st.shirt='black';st.side='front';st.gx=18;st.gy=28;st.gs=64;st.showG=true;st.src='icu-sunset.png';
+  $('h').value='ICU';$('s').value='INTENSIVE CARE UNIT';$('m').value='STAY CALM. INTERVENE.';$('c').value='SAVE LIVES.';
+  paint();
+};
+let drag=null;
+$('gbox').addEventListener('pointerdown',e=>{
+  if(e.target.id==='handle'){drag={k:'s',x:e.clientX,w:st.gs};}
+  else {drag={k:'m',x:e.clientX,y:e.clientY,gx:st.gx,gy:st.gy};}
+  e.preventDefault();
+});
+window.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  const r=$('print').getBoundingClientRect();
+  if(drag.k==='s'){st.gs=Math.max(18,Math.min(90,drag.w+(e.clientX-drag.x)/r.width*100));}
+  else {st.gx=Math.max(-10,Math.min(70,drag.gx+(e.clientX-drag.x)/r.width*100)); st.gy=Math.max(-10,Math.min(70,drag.gy+(e.clientY-drag.y)/r.height*100));}
+  paint();
+});
+window.addEventListener('pointerup',()=>drag=null);
+$('exp').onclick=async()=>{
+  const node=$('shirt');
+  const svg=new XMLSerializer().serializeToString(node.querySelector('.garment'));
+  const psvg=new XMLSerializer().serializeToString($('printSvg'));
+  const canvas=document.createElement('canvas'); canvas.width=800; canvas.height=1000;
+  const ctx=canvas.getContext('2d');
+  const img=new Image(); img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  await img.decode(); ctx.drawImage(img,0,0,800,1000);
+  const p=new Image(); p.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(psvg);
+  try{await p.decode(); ctx.drawImage(p,800*0.28,1000*0.22,800*0.44,1000*0.52);}catch(e){}
+  if(st.showG){const g=new Image(); g.crossOrigin='anonymous'; g.src=st.src; try{await g.decode(); ctx.drawImage(g,800*(0.28+st.gx/100*0.44),1000*(0.22+st.gy/100*0.52),800*(st.gs/100*0.44),800*(st.gs/100*0.44));}catch(e){}}
+  const a=document.createElement('a'); a.href=canvas.toDataURL('image/png'); a.download='unit-press.png'; a.click();
+};
+try{window.parent.postMessage({type:'unit-press-ready'},'*');}catch(e){}
+paint();
+</script>
+</body>
+</html>

@@ -1,2 +1,3 @@
-# unit-press
-UNIT PRESS ICU merch studio for Wix embed
+# UNIT PRESS
+
+Public merch studio used as the Wix iframe (`/index.html`).
