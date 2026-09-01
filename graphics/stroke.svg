@@ -1,8 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-  <path fill="#F3EBDD" d="M160 170c-32 10-54 44-48 86 6 46 32 76 70 92 8-42 24-70 48-84-10-42-32-80-70-94z"/>
-  <path fill="#F3EBDD" d="M340 170c32 10 54 44 48 86-6 46-32 76-70 92-8-42-24-70-48-84 10-42 32-80 70-94z"/>
-  <path fill="#F3EBDD" d="M188 146c20-24 54-34 80-8 24-22 58-18 78 8-34 8-58 30-78 58-22-26-48-50-80-58z"/>
-  <path fill="#4A1F73" d="M262 118l-26 96 42-10-46 108 80-118-44 8z"/>
-  <path fill="#F3EBDD" d="M64 236l34 26-46 10 64 44-22-46 38-10z"/>
-  <path fill="#F3EBDD" d="M436 236l-34 26 46 10-64 44 22-46-38-10z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520">
+  <defs>
+    <path id="stTop" d="M 100 260 A 160 160 0 0 1 420 260"/>
+    <path id="stBot" d="M 100 260 A 160 160 0 0 0 420 260"/>
+  </defs>
+  <circle cx="260" cy="260" r="200" fill="none" stroke="#F4EFE4" stroke-width="16"/>
+  <text font-family="Arial Black, Arial, sans-serif" font-size="40" font-weight="900" fill="#F4EFE4" letter-spacing="6">
+    <textPath href="#stTop" startOffset="50%" text-anchor="middle">STROKE</textPath>
+  </text>
+  <text font-family="Arial Black, Arial, sans-serif" font-size="40" font-weight="900" fill="#F4EFE4" letter-spacing="6">
+    <textPath href="#stBot" startOffset="50%" text-anchor="middle">STROKE</textPath>
+  </text>
+  <path fill="#F4EFE4" d="M78 200 L64 250 L86 244 L54 318 L116 252 L88 258 Z"/>
+  <path fill="#F4EFE4" d="M442 200 L456 250 L434 244 L466 318 L404 252 L432 258 Z"/>
+  <path fill="#F4EFE4" d="
+    M252 188
+    C232 160 196 154 172 172
+    C148 190 140 228 152 258
+    C142 280 150 308 174 322
+    C198 336 228 328 246 310
+    C254 290 256 230 252 188Z"/>
+  <path fill="#F4EFE4" d="
+    M268 188
+    C288 160 324 154 348 172
+    C372 190 380 228 368 258
+    C378 280 370 308 346 322
+    C322 336 292 328 274 310
+    C266 290 264 230 268 188Z"/>
+  <path fill="#F4EFE4" d="M292 316 C318 328 348 320 356 300 C348 334 316 348 286 334 C288 324 290 320 292 316Z"/>
+  <path fill="#F4EFE4" d="M286 142 L232 250 H268 L210 372 L304 246 H266 Z"/>
 </svg>

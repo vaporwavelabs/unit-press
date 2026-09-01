@@ -1,7 +1,9 @@
 (function () {
-  if (window.__unitPress >= 7) return;
-  window.__unitPress = 7;
-  var B = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@1ff7552/";
+  if (window.__unitPress >= 8) return;
+  window.__unitPress = 8;
+  var src = (document.currentScript && document.currentScript.src) || "";
+  var B = src.replace(/embed\.js(\?.*)?$/, "");
+  if (!B) B = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@main/";
   function ready(fn) {
     if (document.body) fn();
     else document.addEventListener("DOMContentLoaded", fn);
@@ -71,8 +73,12 @@
       var t = (el.textContent || "").replace(/\s+/g, " ").trim();
       return /design your shirt/i.test(t);
     }
+    var hooked = 0;
     document.querySelectorAll("a,button,[role=button]").forEach(function (el) {
-      if (isDesignBtn(el)) el.addEventListener("click", openStudio);
+      if (isDesignBtn(el)) {
+        el.addEventListener("click", openStudio);
+        hooked++;
+      }
     });
     if (!document.getElementById("up-fab")) {
       var b = document.createElement("button");
