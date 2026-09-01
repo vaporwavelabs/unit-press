@@ -1,9 +1,10 @@
 (function () {
-  if (window.__unitPress >= 9) return;
-  window.__unitPress = 9;
+  if (window.__unitPress >= 10) return;
+  window.__unitPress = 10;
   var src = (document.currentScript && document.currentScript.src) || "";
   var B = src.replace(/embed\.js(\?.*)?$/, "");
   if (!B) B = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@main/";
+  var STUDIO = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@1ff7552/";
   function ready(fn) {
     if (document.body) fn();
     else document.addEventListener("DOMContentLoaded", fn);
@@ -47,14 +48,27 @@
       hideC(true);
       if (loaded) return;
       loaded = 1;
-      fetch(B + "studio.html")
+      fetch(STUDIO + "studio.html")
         .then(function (r) {
           return r.text();
         })
         .then(function (t) {
           t = t
-            .replace('const CDN="";', 'const CDN="' + B + '";')
-            .replace('const CDN = "";', 'const CDN = "' + B + '";');
+            .replace('const CDN="";', 'const CDN="' + STUDIO + '";')
+            .replace('src="icu-sunset.png"', 'src=""')
+            .replace('alt="print graphic"', 'alt=""')
+            .replace('value="ICU"', 'value=""')
+            .replace('value="INTENSIVE CARE UNIT"', 'value=""')
+            .replace('value="STAY CALM. INTERVENE."', 'value=""')
+            .replace('value="SAVE LIVES."', 'value=""')
+            .replace(
+              "if(q&&TPL[q])applyTemplate(q);else paint();",
+              "applyTemplate((q&&TPL[q])?q:'icu');"
+            );
+          t = t.replace(
+            "</style>",
+            ".gimg img:not([src]),.gimg img[src=''],.gimg img.broken{display:none!important;width:0!important;height:0!important}#handle{opacity:0!important}.gimg:hover #handle,.gimg.dragging #handle{opacity:1!important}</style>"
+          );
           fr.src = URL.createObjectURL(new Blob([t], { type: "text/html" }));
         });
     }
@@ -73,12 +87,8 @@
       var t = (el.textContent || "").replace(/\s+/g, " ").trim();
       return /design your shirt/i.test(t);
     }
-    var hooked = 0;
     document.querySelectorAll("a,button,[role=button]").forEach(function (el) {
-      if (isDesignBtn(el)) {
-        el.addEventListener("click", openStudio);
-        hooked++;
-      }
+      if (isDesignBtn(el)) el.addEventListener("click", openStudio);
     });
     if (!document.getElementById("up-fab")) {
       var b = document.createElement("button");
