@@ -1,10 +1,10 @@
 (function () {
-  if (window.__unitPress >= 10) return;
-  window.__unitPress = 10;
+  if (window.__unitPress >= 11) return;
+  window.__unitPress = 11;
   var src = (document.currentScript && document.currentScript.src) || "";
   var B = src.replace(/embed\.js(\?.*)?$/, "");
   if (!B) B = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@main/";
-  var STUDIO = "https://cdn.jsdelivr.net/gh/vaporwavelabs/unit-press@1ff7552/";
+  var STUDIO = B;
   function ready(fn) {
     if (document.body) fn();
     else document.addEventListener("DOMContentLoaded", fn);
@@ -39,9 +39,7 @@
     }
     function openStudio(ev) {
       if (ev) ev.preventDefault();
-      try {
-        ov.showModal();
-      } catch (e) {
+      try { ov.showModal(); } catch (e) {
         ov.setAttribute("open", "");
         ov.style.display = "block";
       }
@@ -49,33 +47,35 @@
       if (loaded) return;
       loaded = 1;
       fetch(STUDIO + "studio.html")
-        .then(function (r) {
-          return r.text();
-        })
+        .then(function (r) { return r.text(); })
         .then(function (t) {
+          if (!t || t.indexOf("<PLACEHOLDER>") !== -1 || t.length < 500) {
+            t = "";
+          }
           t = t
             .replace('const CDN="";', 'const CDN="' + STUDIO + '";')
-            .replace('src="icu-sunset.png"', 'src=""')
+            .replace('src="icu-sunset.png"', 'src="' + STUDIO + 'icu-sunset.png"')
             .replace('alt="print graphic"', 'alt=""')
             .replace('value="ICU"', 'value=""')
             .replace('value="INTENSIVE CARE UNIT"', 'value=""')
             .replace('value="STAY CALM. INTERVENE."', 'value=""')
-            .replace('value="SAVE LIVES."', 'value=""')
-            .replace(
-              "if(q&&TPL[q])applyTemplate(q);else paint();",
-              "applyTemplate((q&&TPL[q])?q:'icu');"
-            );
+            .replace('value="SAVE LIVES."', 'value=""');
           t = t.replace(
             "</style>",
-            ".gimg img:not([src]),.gimg img[src=''],.gimg img.broken{display:none!important;width:0!important;height:0!important}#handle{opacity:0!important}.gimg:hover #handle,.gimg.dragging #handle{opacity:1!important}</style>"
+            ".gimg img:not([src]),.gimg img[src=''],.gimg img.broken{display:none!important;width:0!important;height:0!important}#handle{opacity:0!important}.gimg:hover #handle,.gimg.dragging #handle{opacity:1!important}.star,#star{display:none!important}</style>"
           );
+          if (!t || t.length < 500) {
+            fr.src = STUDIO + "index.html";
+            return;
+          }
           fr.src = URL.createObjectURL(new Blob([t], { type: "text/html" }));
+        })
+        .catch(function () {
+          fr.src = STUDIO + "index.html";
         });
     }
     function closeStudio() {
-      try {
-        ov.close();
-      } catch (e) {}
+      try { ov.close(); } catch (e) {}
       ov.style.display = "none";
       hideC(false);
     }
